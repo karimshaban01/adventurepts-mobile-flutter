@@ -1,4 +1,11 @@
+import 'package:adventurepts/dashboard.dart';
+//import 'package:adventurepts/qrcode.dart';
+import 'package:adventurepts/shipments.dart';
+import 'package:adventurepts/support.dart';
+import 'package:adventurepts/track.dart';
+import 'package:adventurepts/vehicles.dart';
 import 'package:flutter/material.dart';
+import 'new.dart';
 
 void main() {
   runApp(const MainApp());
@@ -26,14 +33,14 @@ class _HomeDrawerNavigationState extends State<HomeDrawerNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    Center(child: Text('Dashboard', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Shipments', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Track Parcel', style: TextStyle(fontSize: 24))),
-    Center(child: Text('New Shipment', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Vehicles', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Help and Support', style: TextStyle(fontSize: 24))),
+    DashboardPage(),
+    Shipments(),
+    Track(),
+    NewItem(),
+    Vehicles(),
+    Support(),
     Center(child: Text('Logout', style: TextStyle(fontSize: 24))),
-    Center(child: Text('QR Code Scanner Page', style: TextStyle(fontSize: 24))), // New QR Page
+    //QRViewExample(), // New QR Page
   ];
 
   void _onSelectDrawerItem(int index) {
