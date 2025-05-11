@@ -8,10 +8,34 @@ class NewItem extends StatefulWidget{
 }
 
 class NewItemState extends State<NewItem>{
+  // ignore: non_constant_identifier_names
+  TextEditingController email_controller=TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('This is a new widget'),
+    
+      body: Form(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'enter your email',
+              ),
+            ),
+            Text(email_controller.text),
+            ElevatedButton(
+              onPressed: (){
+                
+              }, 
+              child: Text('print')
+              ),
+              
+          ],
+        )
+        ),
     );
   }
   
