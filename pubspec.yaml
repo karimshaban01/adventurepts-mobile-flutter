@@ -7,8 +7,14 @@ environment:
   sdk: ^3.6.1
 
 dependencies:
+  fl_chart: ^0.71.0
   flutter:
     sdk: flutter
+  http: ^1.4.0
+  #qr_code_scanner: ^1.0.1
+  mobile_scanner: ^6.0.10
+  qr_flutter: ^4.1.0
+  url_launcher: ^6.3.1
    #qr_code_scanner: ^1.0.1
 
 dev_dependencies:

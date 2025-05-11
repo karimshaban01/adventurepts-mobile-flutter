@@ -33,26 +33,25 @@ class _HomeDrawerNavigationState extends State<HomeDrawerNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    DashboardPage(),
-    Shipments(),
-    Track(),
-    NewItem(),
-    Vehicles(),
-    Support(),
+    const DashboardPage(),
+    const Shipments(),
+    const Track(),
+    const NewItem(),
+    const Vehicles(),
+    const Support(),
     Center(child: Text('Logout', style: TextStyle(fontSize: 24))),
-    //QRViewExample(), // New QR Page
   ];
 
   void _onSelectDrawerItem(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    Navigator.pop(context); // Close drawer
+    Navigator.pop(context);
   }
 
   void _openQrPage() {
     setState(() {
-      _selectedIndex = 7; // Index of QR page in _pages
+      _selectedIndex = 6;
     });
   }
 
@@ -64,62 +63,98 @@ class _HomeDrawerNavigationState extends State<HomeDrawerNavigation> {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
             );
           },
         ),
-        title: Text('Home'),
+        title: const Text('Home'),
         actions: [
           IconButton(
             onPressed: _openQrPage,
-            icon: Icon(Icons.qr_code),
+            icon: const Icon(Icons.qr_code),
           ),
         ],
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.all(5),
+          padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              child: Image.network(
-                  'https://avatars.githubusercontent.com/u/94116967?v=4'),
+            Container(
+              color: Colors.lightBlue,
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 16,
+                bottom: 16,
+              ),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: ClipOval(
+                      child: Image.network(
+                        'https://avatars.githubusercontent.com/u/94116967?v=4',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Staff Name',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text(
+                    'Arusha Office',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Dashboard'),
+              leading: const Icon(Icons.home),
+              title: const Text('Dashboard'),
               onTap: () => _onSelectDrawerItem(0),
             ),
             ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Shipments'),
+              leading: const Icon(Icons.list),
+              title: const Text('Shipments'),
               onTap: () => _onSelectDrawerItem(1),
             ),
             ListTile(
-              leading: Icon(Icons.location_pin),
-              title: Text('Track Parcel'),
+              leading: const Icon(Icons.location_pin),
+              title: const Text('Track Parcel'),
               onTap: () => _onSelectDrawerItem(2),
             ),
             ListTile(
-              leading: Icon(Icons.add_box),
-              title: Text('New Shipment'),
+              leading: const Icon(Icons.add_box),
+              title: const Text('New Shipment'),
               onTap: () => _onSelectDrawerItem(3),
             ),
             ListTile(
-              leading: Icon(Icons.local_shipping),
-              title: Text('Vehicles'),
+              leading: const Icon(Icons.local_shipping),
+              title: const Text('Vehicles'),
               onTap: () => _onSelectDrawerItem(4),
             ),
             ListTile(
-              leading: Icon(Icons.help),
-              title: Text('Help and Support'),
+              leading: const Icon(Icons.help),
+              title: const Text('Help and Support'),
               onTap: () => _onSelectDrawerItem(5),
             ),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () => _onSelectDrawerItem(6),
             ),
           ],
