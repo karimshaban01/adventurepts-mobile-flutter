@@ -1,66 +1,111 @@
-/* import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+/* import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
-class QRViewExample extends StatefulWidget {
-  const QRViewExample({super.key});
+class QRScanner extends StatefulWidget {
+  const QRScanner({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _QRViewExampleState createState() => _QRViewExampleState();
+  State<QRScanner> createState() => _QRScannerState();
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
-  String? qrText;
-
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      controller?.pauseCamera();
-    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-      controller?.resumeCamera();
-    }
-  }
+class _QRScannerState extends State<QRScanner> {
+  MobileScannerController controller = MobileScannerController();
+  bool isScanning = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('QR Scanner'),
+        actions: [
+          IconButton(
+            icon: ValueListenableBuilder(
+              valueListenable: controller.torchState,
+              builder: (context, state, child) {
+                switch (state) {
+                  case TorchState.off:
+                    return const Icon(Icons.flash_off);
+                  case TorchState.on:
+                    return const Icon(Icons.flash_on);
+                }
+              },
+            ),
+            onPressed: () => controller.toggleTorch(),
+          ),
+          IconButton(
+            icon: ValueListenableBuilder(
+              valueListenable: controller.cameraFacingState,
+              builder: (context, state, child) {
+                switch (state) {
+                  case CameraFacing.front:
+                    return const Icon(Icons.camera_front);
+                  case CameraFacing.back:
+                    return const Icon(Icons.camera_rear);
+                }
+              },
+            ),
+            onPressed: () => controller.switchCamera(),
+          ),
+        ],
+      ),
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
-            flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+            child: MobileScanner(
+              controller: controller,
+              onDetect: (capture) {
+                final List<Barcode> barcodes = capture.barcodes;
+                for (final barcode in barcodes) {
+                  if (isScanning && barcode.rawValue != null) {
+                    setState(() => isScanning = false);
+                    _showResultDialog(barcode.rawValue!);
+                  }
+                }
+              },
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Text('Scanned Code: ${qrText ?? 'Scan a code'}'),
-            ),
-          )
         ],
       ),
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        qrText = scanData.code;
-      });
-    });
+  void _showResultDialog(String code) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('QR Code Detected'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Content: $code'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() => isScanning = true);
+                Navigator.pop(context);
+              },
+              child: const Text('Continue Scanning'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context, code);
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
-}
- */
+} */
